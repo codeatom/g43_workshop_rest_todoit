@@ -22,13 +22,13 @@ public interface TodoItemService {
 
     List<TodoItemDto> findAllByPersonId(Integer id);
 
-    List<TodoItemDto> findByDoneStatus(Boolean done);
+    List<TodoItemDto> findByDoneStatus(Boolean doneStatus);
 
     List<TodoItemDto> findByDeadlineBetween(LocalDate before, LocalDate after);
 
-    List<TodoItemDto> findByDeadlineBefore(LocalDate before, LocalDate after);
+    List<TodoItemDto> findByDeadlineBefore(LocalDate date);
 
-    List<TodoItemDto> findByDeadlineAfter(LocalDate before, LocalDate after);
+    List<TodoItemDto> findByDeadlineAfter(LocalDate date);
 
     TodoItemDto update(Integer id, TodoItemForm TodoItemForm);
 
