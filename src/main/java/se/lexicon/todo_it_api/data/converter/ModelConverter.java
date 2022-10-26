@@ -1,5 +1,6 @@
 package se.lexicon.todo_it_api.data.converter;
 
+import org.springframework.stereotype.Component;
 import se.lexicon.todo_it_api.dto.views.PersonDto;
 import se.lexicon.todo_it_api.dto.views.TodoItemDto;
 import se.lexicon.todo_it_api.model.entity.Person;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Component
 public class ModelConverter implements Converter {
 
     @Override

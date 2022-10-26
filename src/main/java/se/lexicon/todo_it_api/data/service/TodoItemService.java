@@ -10,7 +10,7 @@ public interface TodoItemService {
 
     TodoItemDto create(TodoItemForm todoItemForm);
 
-    TodoItemDto findBtId(Integer id);
+    TodoItemDto findById(Integer id);
 
     List<TodoItemDto> findAll();
 
