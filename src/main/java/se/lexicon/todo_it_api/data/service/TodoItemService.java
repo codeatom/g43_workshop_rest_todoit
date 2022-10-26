@@ -30,7 +30,7 @@ public interface TodoItemService {
 
     List<TodoItemDto> findByDeadlineAfter(LocalDate before, LocalDate after);
 
-    TodoItemDto update(Integer id, TodoItemForm form);
+    TodoItemDto update(Integer id, TodoItemForm TodoItemForm);
 
     Boolean delete(Integer id);
 }

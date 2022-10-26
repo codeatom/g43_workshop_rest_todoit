@@ -15,7 +15,7 @@ public interface PersonService {
 
     List<PersonDto> findIdlePeople();
 
-    PersonDto update(Integer id);
+    PersonDto update(Integer id, PersonForm personForm);
 
     Boolean delete(Integer id);
 

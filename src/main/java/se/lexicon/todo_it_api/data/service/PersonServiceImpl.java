@@ -33,7 +33,7 @@ public class PersonServiceImpl implements PersonService{
         person.setLastName(personForm.getLastName());
         person.setBirthDate(personForm.getBirthDate());
 
-        return converter.personToDto(person);
+        return converter.personToDto(personDAO.save(person));
     }
 
     @Override
@@ -58,8 +58,23 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public PersonDto update(Integer id) {
-        return null;
+    public PersonDto update(Integer id, PersonForm personForm) {
+        if(personForm == null || id < 1){
+            throw new IllegalArgumentException ("personForm or id is invalid");
+        }
+
+        Person person = personDAO.findById(id).isPresent() ? personDAO.findById(id).get() : null;
+
+        if(person == null){
+            return null;
+        }
+
+        person.setFirstName(personForm.getFirstName());
+        person.setLastName(personForm.getLastName());
+        person.setBirthDate(personForm.getBirthDate());
+        personDAO.save(person);
+
+        return converter.personToDto(person);
     }
 
     @Override

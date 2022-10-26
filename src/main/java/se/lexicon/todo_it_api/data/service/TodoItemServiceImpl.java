@@ -38,7 +38,7 @@ public class TodoItemServiceImpl implements TodoItemService{
         todoItem.setDeadLine(todoItemForm.getDeadLine());
         todoItem.setDone(todoItemForm.isDone());
 
-        return converter.todoItemToDto(todoItem);
+        return converter.todoItemToDto(todoItemDAO.save(todoItem));
     }
 
     @Override
@@ -63,6 +63,27 @@ public class TodoItemServiceImpl implements TodoItemService{
     }
 
     @Override
+    public TodoItemDto update(Integer id, TodoItemForm todoItemForm) {
+        if(todoItemForm == null || id < 1){
+            throw new IllegalArgumentException ("TodoItemForm or id is invalid");
+        }
+
+        TodoItem todoItem = todoItemDAO.findById(id).isPresent() ? todoItemDAO.findById(id).get() : null;
+
+        if(todoItem == null){
+            return null;
+        }
+
+        todoItem.setTitle(todoItemForm.getTitle());
+        todoItem.setDescription(todoItemForm.getDescription());
+        todoItem.setDeadLine(todoItemForm.getDeadLine());
+        todoItem.setDone(todoItemForm.isDone());
+        todoItemDAO.save(todoItem);
+
+        return converter.todoItemToDto(todoItem);
+    }
+
+    @Override
     public List<TodoItemDto> findAllUnassigned() {
         return null;
     }
@@ -73,9 +94,7 @@ public class TodoItemServiceImpl implements TodoItemService{
     }
 
     @Override
-    public List<TodoItemDto> findAllByPersonId(Integer personId) {
-        return null;
-    }
+    public List<TodoItemDto> findAllByPersonId(Integer personId) { return null; }
 
     @Override
     public List<TodoItemDto> findByDoneStatus(Boolean done) {
@@ -94,11 +113,6 @@ public class TodoItemServiceImpl implements TodoItemService{
 
     @Override
     public List<TodoItemDto> findByDeadlineAfter(LocalDate before, LocalDate after) {
-        return null;
-    }
-
-    @Override
-    public TodoItemDto update(Integer id, TodoItemForm form) {
         return null;
     }
 

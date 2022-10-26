@@ -38,4 +38,15 @@ public class TodoItemController {
     public ResponseEntity<TodoItemDto> addTodoItem(@Valid @RequestBody TodoItemForm todoItemForm) {
         return ResponseEntity.status(HttpStatus.CREATED).body(todoItemService.create(todoItemForm));
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TodoItemDto> updateTodoItem(@PathVariable("id") Integer id, @Valid @RequestBody TodoItemForm todoItemForm) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoItemService.update(id, todoItemForm));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id) {
+        todoItemService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

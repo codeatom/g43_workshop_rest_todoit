@@ -39,5 +39,15 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(personService.create(personForm));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PersonDto> updatePerson(@PathVariable("id") Integer id, @Valid @RequestBody PersonForm personForm) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(personService.update(id, personForm));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable("id") Integer id) {
+        personService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

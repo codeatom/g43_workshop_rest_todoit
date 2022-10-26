@@ -27,7 +27,7 @@ public class Person {
     private LocalDate birthDate;
     @OneToMany(
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy = "assignee"
     )
     private List<TodoItem> todoItems;
