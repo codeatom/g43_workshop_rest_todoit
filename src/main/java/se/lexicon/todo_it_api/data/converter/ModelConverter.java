@@ -15,12 +15,14 @@ public class ModelConverter implements Converter {
 
     @Override
     public PersonDto personToDto(Person entity) {
-        return new PersonDto(entity.getPersonId(),
-                entity.getFirstName(),
-                entity.getLastName(),
-                entity.getBirthDate(),
-                entity.getTodoItems()
-        );
+        List<TodoItemDto> todoItemDtoList = new ArrayList<>();
+
+        for(TodoItem todoItem : entity.getTodoItems()){
+            TodoItemDto todoItemDto = new TodoItemDto(todoItem.getTodoId(), todoItem.getTitle(), todoItem.getDescription(), todoItem.getDeadLine(), todoItem.isDone());
+            todoItemDtoList.add(todoItemDto);
+        }
+
+        return new PersonDto(entity.getPersonId(), entity.getFirstName(), entity.getLastName(), entity.getBirthDate(), todoItemDtoList);
     }
 
     @Override
@@ -36,14 +38,7 @@ public class ModelConverter implements Converter {
 
     @Override
     public TodoItemDto todoItemToDto(TodoItem entity) {
-        return new TodoItemDto(
-                entity.getTodoId(),
-                entity.getTitle(),
-                entity.getDescription(),
-                entity.getDeadLine(),
-                entity.isDone(),
-                entity.getAssignee()
-        );
+        return new TodoItemDto(entity.getTodoId(), entity.getTitle(), entity.getDescription(), entity.getDeadLine(), entity.isDone(), entity.getAssignee());
     }
 
     @Override
@@ -56,4 +51,5 @@ public class ModelConverter implements Converter {
 
         return todoItemDtoList;
     }
+
 }

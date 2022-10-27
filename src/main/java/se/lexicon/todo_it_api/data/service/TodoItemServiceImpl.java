@@ -2,6 +2,7 @@ package se.lexicon.todo_it_api.data.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.todo_it_api.data.dao.TodoItemDAO;
 import se.lexicon.todo_it_api.data.converter.Converter;
 import se.lexicon.todo_it_api.dto.forms.TodoItemForm;
@@ -12,6 +13,7 @@ import se.lexicon.todo_it_api.model.entity.TodoItem;
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
 @Service
 public class TodoItemServiceImpl implements TodoItemService{
 
@@ -68,17 +70,12 @@ public class TodoItemServiceImpl implements TodoItemService{
             throw new IllegalArgumentException ("TodoItemForm or id is invalid");
         }
 
-        TodoItem todoItem = todoItemDAO.findById(id).isPresent() ? todoItemDAO.findById(id).get() : null;
-
-        if(todoItem == null){
-            return null;
-        }
+        TodoItem todoItem = todoItemDAO.findById(id).orElseThrow(() -> new AppResourceNotFoundException("Todo Item with id " + id + " not found."));
 
         todoItem.setTitle(todoItemForm.getTitle());
         todoItem.setDescription(todoItemForm.getDescription());
         todoItem.setDeadLine(todoItemForm.getDeadLine());
         todoItem.setDone(todoItemForm.isDone());
-        todoItemDAO.save(todoItem);
 
         return converter.todoItemToDto(todoItem);
     }

@@ -2,6 +2,7 @@ package se.lexicon.todo_it_api.data.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.todo_it_api.data.dao.PersonDAO;
 import se.lexicon.todo_it_api.data.dao.TodoItemDAO;
 import se.lexicon.todo_it_api.data.converter.Converter;
@@ -14,6 +15,7 @@ import se.lexicon.todo_it_api.model.entity.TodoItem;
 import java.util.List;
 
 @Service
+@Transactional
 public class PersonServiceImpl implements PersonService{
 
     private final PersonDAO personDAO;
@@ -65,16 +67,11 @@ public class PersonServiceImpl implements PersonService{
             throw new IllegalArgumentException ("personForm or id is invalid");
         }
 
-        Person person = personDAO.findById(id).isPresent() ? personDAO.findById(id).get() : null;
-
-        if(person == null){
-            throw new AppResourceNotFoundException("Person with id " + id + " not found.");
-        }
+        Person person = personDAO.findById(id).orElseThrow(() -> new AppResourceNotFoundException("Person with id " + id + " not found."));
 
         person.setFirstName(personForm.getFirstName());
         person.setLastName(personForm.getLastName());
         person.setBirthDate(personForm.getBirthDate());
-        personDAO.save(person);
 
         return converter.personToDto(person);
     }
@@ -86,47 +83,19 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public PersonDto addTodoItem(Integer personId, Integer todoItemId) {
-        TodoItem todoItem = todoItemDAO.findById(todoItemId).isPresent() ?
-                todoItemDAO.findById(todoItemId).get() :
-                null;
-
-        if(todoItem == null){
-            throw new AppResourceNotFoundException("Todo Item with id " + todoItemId + " not found.");
-        }
-
-        Person person = personDAO.findById(personId).isPresent() ?
-                personDAO.findById(personId).get() :
-                null;
-
-        if (person == null){
-            throw new AppResourceNotFoundException("Person with id " + personId + " not found.");
-        }
+        TodoItem todoItem = todoItemDAO.findById(todoItemId).orElseThrow(() -> new AppResourceNotFoundException("Todo Item with id " + todoItemId + " not found."));
+        Person person = personDAO.findById(personId).orElseThrow(() -> new AppResourceNotFoundException("Person with id " + personId + " not found."));
 
         person.addTodoItem(todoItem);
-        personDAO.save(person);
         return converter.personToDto(person);
     }
 
     @Override
     public PersonDto removeTodoItem(Integer personId, Integer todoItemId) {
-        TodoItem todoItem = todoItemDAO.findById(todoItemId).isPresent() ?
-                todoItemDAO.findById(todoItemId).get() :
-                null;
-
-        if(todoItem == null){
-            throw new AppResourceNotFoundException("Todo Item with id " + todoItemId + " not found.");
-        }
-
-        Person person = personDAO.findById(personId).isPresent() ?
-                personDAO.findById(personId).get() :
-                null;
-
-        if (person == null){
-            throw new AppResourceNotFoundException("Person with id " + personId + " not found.");
-        }
+        TodoItem todoItem = todoItemDAO.findById(todoItemId).orElseThrow(() -> new AppResourceNotFoundException("Todo Item with id " + todoItemId + " not found."));
+        Person person = personDAO.findById(personId).orElseThrow(() -> new AppResourceNotFoundException("Person with id " + personId + " not found."));
 
         person.removeTodoItem(todoItem);
-        personDAO.save(person);
         return converter.personToDto(person);
     }
 
