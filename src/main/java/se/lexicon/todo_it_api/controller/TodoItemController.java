@@ -10,6 +10,7 @@ import se.lexicon.todo_it_api.dto.forms.TodoItemForm;
 import se.lexicon.todo_it_api.dto.views.TodoItemDto;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -32,6 +33,46 @@ public class TodoItemController {
     @GetMapping("/find-by-id/{id}")
     public ResponseEntity<TodoItemDto> getTodoItemById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(todoItemService.findById(id));
+    }
+
+    @GetMapping("/find-by-title/{title}")
+    public ResponseEntity<List<TodoItemDto>> getTodoItemByTitle(@PathVariable("title") String title) {
+        return ResponseEntity.ok(todoItemService.findByTitle(title));
+    }
+
+    @GetMapping("/find-by-person-id/{id}")
+    public ResponseEntity<List<TodoItemDto>> getAllByPersonId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(todoItemService.findAllByPersonId(id));
+    }
+
+    @GetMapping("/find-by-done-status/{doneStatus}")
+    public ResponseEntity<List<TodoItemDto>> getAllByDoneStatus(@PathVariable("doneStatus") Boolean doneStatus) {
+        return ResponseEntity.ok(todoItemService.findByDoneStatus(doneStatus));
+    }
+
+    @GetMapping("/find-all-unassigned")
+    public ResponseEntity<List<TodoItemDto>> getAllUnassigned() {
+        return ResponseEntity.ok(todoItemService.findAllUnassigned());
+    }
+
+    @GetMapping("/find-all-unfinished")
+    public ResponseEntity<List<TodoItemDto>> getAllUnfinished() {
+        return ResponseEntity.ok(todoItemService.findAllUnfinishedAndOverdue());
+    }
+
+    @GetMapping("/find-by-deadline-between/{before}/{after}")
+    public ResponseEntity<List<TodoItemDto>> getByDeadlineBetween(@PathVariable("before") String before, @PathVariable("after") String after) {
+        return ResponseEntity.ok(todoItemService.findByDeadlineBetween(LocalDate.parse(before), LocalDate.parse(after)));
+    }
+
+    @GetMapping("/find-by-deadline-before/{date}")
+    public ResponseEntity<List<TodoItemDto>> getByDeadlineBefore(@PathVariable("date") String date) {
+        return ResponseEntity.ok(todoItemService.findByDeadlineBefore(LocalDate.parse(date)));
+    }
+
+    @GetMapping("/find-by-deadline-after/{date}")
+    public ResponseEntity<List<TodoItemDto>> getByDeadlineAfter(@PathVariable("date") String date) {
+        return ResponseEntity.ok(todoItemService.findByDeadlineBefore(LocalDate.parse(date)));
     }
 
     @PostMapping("/add")

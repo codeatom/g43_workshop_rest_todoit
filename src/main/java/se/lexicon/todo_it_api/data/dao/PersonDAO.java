@@ -1,4 +1,4 @@
-package se.lexicon.todo_it_api.data;
+package se.lexicon.todo_it_api.data.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

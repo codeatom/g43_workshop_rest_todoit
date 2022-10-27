@@ -2,8 +2,8 @@ package se.lexicon.todo_it_api.data.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.lexicon.todo_it_api.data.PersonDAO;
-import se.lexicon.todo_it_api.data.TodoItemDAO;
+import se.lexicon.todo_it_api.data.dao.PersonDAO;
+import se.lexicon.todo_it_api.data.dao.TodoItemDAO;
 import se.lexicon.todo_it_api.data.converter.Converter;
 import se.lexicon.todo_it_api.dto.forms.PersonForm;
 import se.lexicon.todo_it_api.dto.views.PersonDto;
@@ -102,7 +102,7 @@ public class PersonServiceImpl implements PersonService{
             throw new AppResourceNotFoundException("Person with id " + personId + " not found.");
         }
 
-        person.getTodoItems().add(todoItem);
+        person.addTodoItem(todoItem);
         personDAO.save(person);
         return converter.personToDto(person);
     }
@@ -125,7 +125,7 @@ public class PersonServiceImpl implements PersonService{
             throw new AppResourceNotFoundException("Person with id " + personId + " not found.");
         }
 
-        person.getTodoItems().remove(todoItem);
+        person.removeTodoItem(todoItem);
         personDAO.save(person);
         return converter.personToDto(person);
     }

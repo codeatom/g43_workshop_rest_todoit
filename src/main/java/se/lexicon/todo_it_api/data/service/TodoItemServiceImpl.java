@@ -2,7 +2,7 @@ package se.lexicon.todo_it_api.data.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.lexicon.todo_it_api.data.TodoItemDAO;
+import se.lexicon.todo_it_api.data.dao.TodoItemDAO;
 import se.lexicon.todo_it_api.data.converter.Converter;
 import se.lexicon.todo_it_api.dto.forms.TodoItemForm;
 import se.lexicon.todo_it_api.dto.views.TodoItemDto;
