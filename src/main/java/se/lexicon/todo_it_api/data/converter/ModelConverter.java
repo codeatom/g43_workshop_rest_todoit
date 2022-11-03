@@ -38,7 +38,9 @@ public class ModelConverter implements Converter {
 
     @Override
     public TodoItemDto todoItemToDto(TodoItem entity) {
-        return new TodoItemDto(entity.getTodoId(), entity.getTitle(), entity.getDescription(), entity.getDeadLine(), entity.isDone(), entity.getAssignee());
+        PersonDto personDto = new PersonDto(entity.getAssignee().getPersonId(), entity.getAssignee().getFirstName(), entity.getAssignee().getLastName(), entity.getAssignee().getBirthDate());
+
+        return new TodoItemDto(entity.getTodoId(), entity.getTitle(), entity.getDescription(), entity.getDeadLine(), entity.isDone(), personDto);
     }
 
     @Override
